@@ -1,0 +1,4 @@
+ctrl A selecciona todo el codigo
+ctrl h para seleccionar todas las palabras iguales y cambiarlas
+ctrl p para buscar una cosa en espcicifico
+ctrl f para encontrar algo en especifico

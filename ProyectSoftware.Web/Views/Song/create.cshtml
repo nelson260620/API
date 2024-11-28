@@ -1,0 +1,93 @@
+﻿@model ProjectSoftware.Web.DTOs.SongDTO
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SolMusic | Create Song</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="SolMusic HTML Template">
+    <meta name="keywords" content="music, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="shortcut icon" />
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/theme/playlist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/theme/playlist/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/theme/playlist/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="/theme/playlist/css/slicknav.min.css" />
+    <link rel="stylesheet" href="/theme/playlist/css/style.css" />
+</head>
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header section -->
+    <header class="header-section clearfix">
+        <a href="index.html" class="site-logo">
+            <img src="/theme/playlist/img/logo.png" alt="">
+        </a>
+        <ul class="main-menu">
+            <li><a href="@Url.Action("Dashboard", "Home")">Inicio</a></li>
+            <li>
+                <a href="#">Pages</a>
+                <ul class="sub-menu">
+                    <li><a href="@Url.Action("Index", "Song")">Song</a></li>
+                    <li><a href="@Url.Action("Index", "Playlist")">Playlist</a></li>
+                </ul>
+            </li>
+        </ul>
+    </header>
+    <!-- Header section end -->
+    <!-- Contenido de la página -->
+    <section class="songs-section">
+        <div class="container">
+            <h1>Create Song</h1>
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Title"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Artist"></label>
+                    <input asp-for="Artist" class="form-control" />
+                    <span asp-validation-for="Artist" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AudioFile">Audio File</label>
+                    <input type="file" asp-for="AudioFile" class="form-control-file" />
+                    <span asp-validation-for="AudioFile" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageFile">Image File</label>
+                    <input type="file" asp-for="ImageFile" class="form-control-file" />
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer section -->
+    <footer class="footer-section">
+        <div class="container">
+            <p>2023 SolMusic, All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <!--====== Javascripts & Jquery ======-->
+    <script src="/theme/playlist/js/jquery-3.2.1.min.js"></script>
+    <script src="/theme/playlist/js/bootstrap.min.js"></script>
+    <script src="/theme/playlist/js/jquery.slicknav.min.js"></script>
+    <script src="/theme/playlist/js/owl.carousel.min.js"></script>
+    <script src="/theme/playlist/js/mixitup.min.js"></script>
+    <script src="/theme/playlist/js/main.js"></script>
+</body>
+</html>

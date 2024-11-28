@@ -1,0 +1,108 @@
+﻿@model IEnumerable<ProyectSoftware.Web.Data.Entities.ProyectSoftwareRole>
+@inject ProyectSoftware.Web.Services.IUsersService _usersService
+
+@{
+    ViewData["Title"] = "Roles"; // Establece el título de la página.
+    Layout = "~/Views/Shared/_MyLayout.cshtml"; /* forma para que en ves del tener el layout normal tenga el otro */
+}
+@* //estan heredando de layaout *@
+<div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-asp-controller="Home" asp-action="Dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Roles</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section dashboard">
+    <div class="card">
+        @if (await _usersService.CurrentUserIsAuthorizedAsync("createRoles", "Roles"))
+        {
+            <div class="card-header py-3">
+                <h3 class="m-0 font-weight-bold text-primary col-md-11">Roles</h3>
+                <div>
+                    <a asp-action="Create" class="btn btn-primary">New Roles</a>
+                </div>
+            </div>
+        }
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Roles</h5>
+                <!-- Table Variants -->
+                <table class="table table-bordered">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Name)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="table-secondary">
+                                <td>@item.Name</td>
+                                <td>
+                                    @if (item.Name != Constants.SUPER_ADMIN_ROLE_NAME)
+                                    {
+                                        @if (await _usersService.CurrentUserIsAuthorizedAsync("updateRoles", "Roles"))
+                                        {
+                                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-fill"></i></a>
+                                            @*  esta llamando a delete de controller *@
+                                        }
+                                        @if (await _usersService.CurrentUserIsAuthorizedAsync("deleteRoles", "Roles"))
+                                        {
+                                            <form asp-action="Delete" asp-route-id="@item.Id" style="display:contents">
+                                                <button asp-action="Delete"
+                                                        asp-route-id="@item.Id" class="btn btn-sm btn-danger btnDelete">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        }
+
+                                    }
+                                    
+                                </td>
+                            </tr>
+
+
+                        }
+                    </tbody>
+                </table>
+                <!-- End Table Variants -->
+            </div>
+        </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Función que se ejecuta cuando el documento HTML ha sido completamente cargado
+        $(document).ready(function () {
+            // Selecciona todos los elementos con la clase 'btnDelete' y define un evento 'click' para ellos
+            $('.btnDelete').click(function (event) {
+                // Evita el comportamiento predeterminado del botón (enviar el formulario)
+                event.preventDefault();
+                // Muestra un cuadro de diálogo de confirmación utilizando SweetAlert2
+                Swal.fire({
+                    title: "¿Desea eliminar el Role?",
+                    text: "No prodrá revertirlo",
+                    icon: "question",
+                    showCancelButton: true,
+                }).then((result) => {// Si el usuario confirma la eliminación
+
+                    if (result.isConfirmed) {
+                        // Encuentra el formulario más cercano al botón de eliminación y lo envía
+                        const form = $(this).closest('form');
+
+                        form.submit();// Envía el formulario. Si el usuario confirmó la eliminación, el formulario se envía y el autor se eliminará del servidor.
+                    }
+
+                });
+
+            });
+
+        });
+
+    </script>
+}

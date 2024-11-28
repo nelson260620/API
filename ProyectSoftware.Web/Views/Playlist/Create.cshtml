@@ -1,0 +1,18 @@
+﻿@model ProjectSoftware.Web.DTOs.PlaylistDTO
+
+@{
+    ViewData["Title"] = "Crear Nueva Lista de Reproducción";
+}
+
+<h2>Crear Nueva Lista de Reproducción</h2>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Crear</button>
+</form>
+
+<a asp-action="Index" class="btn btn-secondary">Volver </a>

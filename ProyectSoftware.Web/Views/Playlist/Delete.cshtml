@@ -1,0 +1,16 @@
+﻿@model ProjectSoftware.Web.DTOs.PlaylistDTO
+
+@{
+    ViewData["Title"] = "Eliminar Lista de Reproducción";
+}
+
+<h2>Eliminar Lista de Reproducción</h2>
+
+<div>
+    <p>¿Estás seguro de que quieres eliminar la lista de reproducción <strong>@Model.Name</strong>?</p>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

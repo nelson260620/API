@@ -1,0 +1,81 @@
+﻿@inject ProyectSoftware.Web.Services.IUsersService _usersService
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        @* se utiliza para determinar si una sección de la interfaz de usuario debe estar colapsada
+        o no, dependiendo de la ruta actual (controlador y acción) *@
+        <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home"
+               ? "" : "collapsed")" asp-action="Dashboard" asp-controller="Home">
+                <i class="bi bi-puzzle"></i>
+                <span>inicio</span>
+            </a>
+
+            @if (await _usersService.CurrentUserIsAuthorizedAsync("showGenderTypes", "GenderTypes"))
+            {
+                <li class="nav-item">
+                    <!-- creando una conexcion con author-->
+                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "GenderTypes"
+               ? "" : "collapsed")" asp-controller="GenderTypes" asp-action="Index">
+                        <i class="bi bi-puzzle"></i>
+                        <span>GenderType</span>
+                    </a>
+                </li>
+            }
+            
+
+            <!-- End GenderTypes Nav -->
+            @if (await _usersService.CurrentUserIsAuthorizedAsync("showRoles", "Roles"))
+            {
+                <li class="nav-item">
+                    <!-- creando una conexcion con author-->
+                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Roles"
+               ? "" : "collapsed")" asp-controller="Roles" asp-action="Index">
+                        <i class="bi bi-puzzle"></i>
+                        <span>Roles</span>
+                    </a>
+                </li>
+
+                <!-- End Dashboard Nav -->
+            }
+
+            @if (await _usersService.CurrentUserIsAuthorizedAsync("showUsers", "Users"))
+            {
+                <li class="nav-item">
+                    <!-- creando una conexcion con author-->
+                    <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Users"
+                   ? "" : "collapsed")" asp-controller="Users" asp-action="Index">
+                        <i class="bi bi-puzzle"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+
+                <!-- End Dashboard Nav -->
+
+            }
+        <!-- Nueva opción de menú Playlist -->
+            <li class="nav-item">
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Playlist" 
+                ? "" : "collapsed")" asp-controller="Playlist" asp-action="Index">
+                    <i class="bi bi-music-note"></i>
+                    <span>Playlist</span>
+                </a>
+            </li>
+
+        <!-- Nueva opción de menú song -->
+            <li class="nav-item">
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Song" 
+                && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-controller="Song" asp-action="Index">
+                    <i class="bi bi-music-note"></i>
+                    <span>Music</span>
+                </a>
+            </li>
+
+
+            
+        
+
+    </ul>
+
+</aside><!-- End Sidebar-->

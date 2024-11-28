@@ -1,0 +1,101 @@
+﻿@model IEnumerable<ProyectSoftware.Web.Data.Entities.User>
+
+@inject ProyectSoftware.Web.Services.IUsersService _usersService
+
+@{
+    ViewData["Title"] = "Usuarios";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+
+<div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-asp-controller="Home" asp-action="Dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Roles</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section dashboard">
+    <div class="card">
+        @if (await _usersService.CurrentUserIsAuthorizedAsync("createUsers", "Users"))
+        {
+            <div class="card-header py-3">
+                <h3 class="m-0 font-weight-bold text-primary col-md-11">Users</h3>
+                <div>
+                    <a asp-action="Create" class="btn btn-primary">New Users</a>
+                </div>
+            </div>
+        }
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Roles</h5>
+                <!-- Table Variants -->
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="cursor: pointer;"> Documento </th>
+                            <th style="cursor: pointer;"> Nombre </th>
+                            <th style="cursor: pointer;"> Email </th>
+                            <th style="cursor: pointer;"> Rol </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td> @Html.DisplayFor(modelItem => item.Document) </td>
+                                <td> @Html.DisplayFor(modelItem => item.FullName) </td>
+                                <td> @Html.DisplayFor(modelItem => item.Email) </td>
+                                <td> @Html.DisplayFor(modelItem => item.ProyectSoftwareRole.Name) </td>
+                                
+
+                                <td>
+                                    @if (await _usersService.CurrentUserIsAuthorizedAsync("updateUsers", "Usuarios"))
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning"><i class="bi bi-pencil-fill"></i></a>
+                                    }
+
+                                    @if (await _usersService.CurrentUserIsAuthorizedAsync("deleteUsers", "Usuarios"))
+                                    {
+                                        <form asp-action="Delete" asp-route-id="@item.Id" style="display:contents">
+                                            <button class="btn btn-danger btn-sm btnDelete"><i class="bi bi-trash-fill"></i></button>
+                                        </form>
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <!-- End Table Variants -->
+            </div>
+        </div>
+</section>
+ 
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.btnDelete').click(function (event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: "¿Desea eliminar el usuario?",
+                    text: "No prodrá revertirlo",
+                    icon: "question",
+                    showCancelButton: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const form = $(this).closest('form');
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+}
